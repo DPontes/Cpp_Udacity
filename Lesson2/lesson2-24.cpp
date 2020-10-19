@@ -22,7 +22,7 @@ vector<int> ParseLine(string line) {
     int value;
     char comma;
 
-    while (this_stream >> value >> comma) {
+    while (this_stream >> value >> comma && comma == ",") {
         lineVector.push_back(value);
     }
     return lineVector;
