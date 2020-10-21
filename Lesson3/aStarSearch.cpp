@@ -43,6 +43,10 @@ vector<vector<State>> ReadBoardFile(string path) {
     return board;
 }
 
+int Heuristic(int coordX1, int coordY1, int coordX2, int coordY2) {
+    return abs(coordX2 - coordX1) + abs(coordY2 - coordY1);
+}
+
 vector<vector<State>> Search(vector<vector<State>> board,
                              int init[2],
                              int goal[2]) {
@@ -67,12 +71,17 @@ void PrintBoard(const vector<vector<State>> board) {
     }
 }
 
+#include "test_aStarSearch.cpp"
+
 int main() {
     int init[2] {0,0};
     int goal[2] {4,5};
     auto board = ReadBoardFile("files/1.board");
     auto solution = Search(board, init, goal);
     PrintBoard(solution);
+
+    // For testing¨
+    TestHeuristics();
 
     return 0;
 }
