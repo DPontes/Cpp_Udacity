@@ -12,7 +12,7 @@ using std::string;
 using std::vector;
 using std::abs;
 
-enum class State {kEmpty, kObstacle};
+enum class State {kEmpty, kObstacle, kClosed};
 
 vector<State> ParseLine(string line) {
     istringstream sline(line);
@@ -45,6 +45,17 @@ vector<vector<State>> ReadBoardFile(string path) {
 
 int Heuristic(int coordX1, int coordY1, int coordX2, int coordY2) {
     return abs(coordX2 - coordX1) + abs(coordY2 - coordY1);
+}
+
+void AddToOpen(int x,
+               int y,
+               int g,
+               int h,
+               vector<vector<int>> &openNode,
+               vector<vector<State>> &grid) {
+
+    openNode.push_back(vector<int> {x, y, g, h});
+    grid[x][y] = State::kClosed;
 }
 
 vector<vector<State>> Search(vector<vector<State>> board,
@@ -80,8 +91,9 @@ int main() {
     auto solution = Search(board, init, goal);
     PrintBoard(solution);
 
-    // For testing¨
+    // For testing
     TestHeuristics();
+    TestAddToTopen();
 
     return 0;
 }
