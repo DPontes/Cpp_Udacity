@@ -1,3 +1,11 @@
+void PrintVector(vector<int> v) {
+    cout << "{ ";
+    for (auto item : v) {
+        cout << item << " ";
+    }
+    cout << "}" << endl;
+}
+
 void PrintVectorOFVectors(vector<vector<int>> v) {
     for (auto row : v) {
         cout << "{";
@@ -83,4 +91,36 @@ void TestAddToTopen() {
     cout << "--------------------------------" << endl;
 
     return;
+}
+
+void TestCompare() {
+    cout << "--------------------------------" << endl;
+    cout << "Compare Function Test: ";
+    vector<int> test_1 {1,2,5,6};
+    vector<int> test_2 {1,2,5,7};
+    vector<int> test_3 {1,2,5,8};
+    vector<int> test_4 {1,3,5,7};
+
+    if (Compare(test_1, test_2)) {
+        cout << "failed" << endl;
+        cout << endl << "a = ";
+        PrintVector(test_1);
+        cout << "b = ";
+        PrintVector(test_2);
+        cout << "Compare(a, b): " << Compare(test_1, test_2) << endl;
+        cout << "Correct answer: 0" << endl;
+        cout << endl;
+    } else if (!Compare(test_3, test_4)) {
+        cout << "failed" << endl;
+        cout << endl << "a = ";
+        PrintVector(test_3);
+        cout << "b = ";
+        PrintVector(test_4);
+        cout << "Compare(a, b): " << Compare(test_3, test_4) << endl;
+        cout << "Correct answer: 1" << endl;
+        cout << endl;
+    } else {
+        cout << "Passed" << endl;
+    }
+    cout << "--------------------------------" << endl;
 }

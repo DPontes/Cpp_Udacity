@@ -76,6 +76,18 @@ vector<vector<State>> Search(vector<vector<State>> board,
     return vector<vector<State>> ();
 }
 
+bool Compare(vector<int> node1, vector<int> node2) {
+    int node1_g = node1[2];
+    int node1_h = node1[3];
+    int node2_g = node2[2];
+    int node2_h = node2[3];
+
+    int node1_fValue = node1_g + node1_h;
+    int node2_fValue = node2_g + node2_h;
+
+    return node1_fValue > node2_fValue;
+}
+
 string CellString(State cell) {
     switch(cell) {
         case State::kObstacle: return "⛰️  ";
@@ -104,6 +116,6 @@ int main() {
     // For testing
     TestHeuristics();
     TestAddToTopen();
-
+    TestCompare();
     return 0;
 }
