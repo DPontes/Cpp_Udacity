@@ -46,7 +46,7 @@ void TestHeuristics() {
 }
 
 void TestAddToTopen() {
-    cout << "--------------------------------" << endl;
+    cout << "--------------------------------------" << endl;
     cout << "AddToOpen Function Test: ";
     int x = 3;
     int y = 0;
@@ -88,13 +88,13 @@ void TestAddToTopen() {
     } else {
         cout << "Passed" << endl;
     }
-    cout << "--------------------------------" << endl;
+    cout << "--------------------------------------" << endl;
 
     return;
 }
 
 void TestCompare() {
-    cout << "--------------------------------" << endl;
+    cout << "--------------------------------------" << endl;
     cout << "Compare Function Test: ";
     vector<int> test_1 {1,2,5,6};
     vector<int> test_2 {1,2,5,7};
@@ -122,5 +122,35 @@ void TestCompare() {
     } else {
         cout << "Passed" << endl;
     }
-    cout << "--------------------------------" << endl;
+    cout << "--------------------------------------" << endl;
+}
+
+void TestSearch() {
+    cout << "--------------------------------------" << endl;
+    cout << "Search Function Test (partial: ";
+    int goal[2] {4,5};
+    auto board = ReadBoardFile("files/1.board");
+
+    std::cout.setstate(std::ios_base::failbit);  // Disable cout
+    auto output = Search(board, goal, goal);
+    std::cout.clear();                           // Enable cout
+
+    vector<vector<State>> solution{  {State::kEmpty, State::kObstacle, State::kEmpty, State::kEmpty, State::kEmpty, State::kEmpty},
+                                     {State::kEmpty, State::kObstacle, State::kEmpty, State::kEmpty, State::kEmpty, State::kEmpty},
+                                     {State::kEmpty, State::kObstacle, State::kEmpty, State::kEmpty, State::kEmpty, State::kEmpty},
+                                     {State::kEmpty, State::kObstacle, State::kEmpty, State::kEmpty, State::kEmpty, State::kEmpty},
+                                     {State::kEmpty, State::kEmpty, State::kEmpty, State::kEmpty, State::kObstacle, State::kPath}
+                                  };
+    if (output != solution) {
+        cout << "failed" << endl;
+        cout << "Search(board, {4,5}, {4,5}" << endl;
+        cout << "Solution board: " << endl;
+        PrintVectorOFVectors(solution);
+        cout << "Your board: " << endl;
+        PrintVectorOFVectors(output);
+        cout << endl;
+    } else {
+        cout << "Passed" << endl;
+    }
+   cout << "--------------------------------------" << endl;
 }

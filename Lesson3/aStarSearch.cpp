@@ -1,4 +1,5 @@
 // Starting A* search
+#include <algorithm>
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -6,13 +7,14 @@
 #include <vector>
 using std::cout;
 using std::endl;
+using std::sort;
 using std::ifstream;
 using std::istringstream;
 using std::string;
 using std::vector;
 using std::abs;
 
-enum class State {kEmpty, kObstacle, kClosed};
+enum class State {kEmpty, kObstacle, kClosed, kPath};
 
 vector<State> ParseLine(string line) {
     istringstream sline(line);
@@ -58,24 +60,6 @@ void AddToOpen(int x,
     grid[x][y] = State::kClosed;
 }
 
-vector<vector<State>> Search(vector<vector<State>> board,
-                             int init[2],
-                             int goal[2]) {
-
-    vector<vector<int>> open{};
-    int x1 = init[0];
-    int y1 = init[1];
-    int x2 = goal[0];
-    int y2 = goal[1];
-    int g = 0;
-    int h = Heuristic(x1, y1, x2, y2);
-
-    AddToOpen(x1, y1, g, h, open, board);
-
-    cout << "No Path found!" << endl;
-    return vector<vector<State>> ();
-}
-
 bool Compare(vector<int> node1, vector<int> node2) {
     int node1_g = node1[2];
     int node1_h = node1[3];
@@ -86,6 +70,42 @@ bool Compare(vector<int> node1, vector<int> node2) {
     int node2_fValue = node2_g + node2_h;
 
     return node1_fValue > node2_fValue;
+}
+
+void CellSort(vector<vector<int>> *v) {
+    sort(v->begin(), v->end(), Compare);
+}
+
+vector<vector<State>> Search(vector<vector<State>> board,
+                             int init[2],
+                             int goal[2]) {
+
+    vector<vector<int>> open{};
+    int current_x = init[0];
+    int current_y = init[1];
+    int goal_x = goal[0];
+    int goal_y = goal[1];
+    int g = 0;
+    int h = Heuristic(current_x, current_y, goal_x, goal_y);
+
+    AddToOpen(current_x, current_y, g, h, open, board);
+
+    while(open.size() > 0) {
+        CellSort(&open);
+        auto currentNode = open.back();
+        open.pop_back();
+        current_x = currentNode[0];
+        current_y = currentNode[1];
+        board[current_x][current_y] = State::kPath;
+
+        // Check if we've reached the goal
+        if (current_x == goal_x && current_y == goal_y) {
+            return board;
+        }
+    }
+
+    cout << "No Path found!" << endl;
+    return vector<vector<State>> ();
 }
 
 string CellString(State cell) {
@@ -117,5 +137,6 @@ int main() {
     TestHeuristics();
     TestAddToTopen();
     TestCompare();
+    TestSearch();
     return 0;
 }
