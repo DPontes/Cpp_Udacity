@@ -78,7 +78,7 @@ void TestAddToTopen() {
         PrintVectorOFVectors(solution_grid);
         cout << endl;
     } else {
-        cout << "passed" << endl;
+        cout << "Passed" << endl;
     }
     cout << "--------------------------------" << endl;
 

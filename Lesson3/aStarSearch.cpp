@@ -62,6 +62,16 @@ vector<vector<State>> Search(vector<vector<State>> board,
                              int init[2],
                              int goal[2]) {
 
+    vector<vector<int>> open{};
+    int x1 = init[0];
+    int y1 = init[1];
+    int x2 = goal[0];
+    int y2 = goal[1];
+    int g = 0;
+    int h = Heuristic(x1, y1, x2, y2);
+
+    AddToOpen(x1, y1, g, h, open, board);
+
     cout << "No Path found!" << endl;
     return vector<vector<State>> ();
 }
