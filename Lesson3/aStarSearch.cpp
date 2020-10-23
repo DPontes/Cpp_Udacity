@@ -49,15 +49,25 @@ int Heuristic(int coordX1, int coordY1, int coordX2, int coordY2) {
     return abs(coordX2 - coordX1) + abs(coordY2 - coordY1);
 }
 
+bool CheckValidCell(int x, int y, vector<vector<State>> &board) {
+    bool onBoard_x = (x >= 0 && x < board.size());
+    bool onBoard_y = (y >= 0 && y < board[0].size());
+
+    if (onBoard_y && onBoard_x) {
+        return board[x][y] == State::kEmpty;
+    }
+    return false;
+}
+
 void AddToOpen(int x,
                int y,
                int g,
                int h,
                vector<vector<int>> &openNode,
-               vector<vector<State>> &grid) {
+               vector<vector<State>> &board) {
 
     openNode.push_back(vector<int> {x, y, g, h});
-    grid[x][y] = State::kClosed;
+    board[x][y] = State::kClosed;
 }
 
 bool Compare(vector<int> node1, vector<int> node2) {
@@ -138,5 +148,6 @@ int main() {
     TestAddToTopen();
     TestCompare();
     TestSearch();
+    TestCheckValidCell();
     return 0;
 }

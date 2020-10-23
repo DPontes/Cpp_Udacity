@@ -27,7 +27,7 @@ void PrintVectorOFVectors(vector<vector<State>> v) {
 }
 
 void TestHeuristics() {
-    cout << "--------------------------------" << endl;
+    cout << "--------------------------------------" << endl;
     cout << "Heuristic Function Test: ";
     if (Heuristic(1,2,3,4) != 4) {
         cout << "failed" << endl;
@@ -42,7 +42,7 @@ void TestHeuristics() {
     } else {
         cout << "Passed" << endl;
     }
-    cout << "--------------------------------" << endl;
+    cout << "--------------------------------------" << endl;
 }
 
 void TestAddToTopen() {
@@ -127,7 +127,7 @@ void TestCompare() {
 
 void TestSearch() {
     cout << "--------------------------------------" << endl;
-    cout << "Search Function Test (partial: ";
+    cout << "Search Function Test (partial): ";
     int goal[2] {4,5};
     auto board = ReadBoardFile("files/1.board");
 
@@ -152,5 +152,36 @@ void TestSearch() {
     } else {
         cout << "Passed" << endl;
     }
+    cout << "--------------------------------------" << endl;
+}
+
+void TestCheckValidCell() {
+    cout << "--------------------------------------" << endl;
+    cout << "CheckValidCell Function Test: ";
+
+    vector<vector<State>> board{{State::kClosed, State::kObstacle, State::kEmpty, State::kEmpty, State::kEmpty, State::kEmpty},
+                                {State::kClosed, State::kObstacle, State::kEmpty, State::kEmpty, State::kEmpty, State::kEmpty},
+                                {State::kClosed, State::kObstacle, State::kEmpty, State::kEmpty, State::kEmpty, State::kEmpty},
+                                {State::kClosed, State::kObstacle, State::kEmpty, State::kEmpty, State::kEmpty, State::kEmpty},
+                                {State::kClosed, State::kClosed, State::kEmpty, State::kEmpty, State::kObstacle, State::kEmpty}
+                               };
+
+    if (CheckValidCell(0, 0, board)) {
+        cout << "failed" << endl;
+        cout << endl << "Test grid is: " << endl;
+        PrintVectorOFVectors(board);
+        cout << "Cell checked {0, 0}" << endl;
+        cout << endl;
+    } else if (CheckValidCell(4, 1, board)) {
+        cout << "failed" << endl;
+        cout << endl << "Test grid is: " << endl;
+        PrintVectorOFVectors(board);
+        cout << "Cell checked {4, 1}" << endl;
+        cout << endl;
+    } else {
+        cout << "Passed" << endl;
+    }
+
    cout << "--------------------------------------" << endl;
+
 }
