@@ -14,7 +14,10 @@ using std::string;
 using std::vector;
 using std::abs;
 
-enum class State {kEmpty, kObstacle, kClosed, kPath};
+enum class State {kEmpty, kObstacle, kClosed, kPath, kStart, kFinish};
+
+// Directional deltas
+const int delta[4][2] {{-1, 0},{0, -1},{1, 0},{0, 1}};
 
 vector<State> ParseLine(string line) {
     istringstream sline(line);
@@ -86,17 +89,46 @@ void CellSort(vector<vector<int>> *v) {
     sort(v->begin(), v->end(), Compare);
 }
 
+void ExpandNeighbors(const vector<int> &current,
+                     int goal[2],
+                     vector<vector<int>> &openList,
+                     vector<vector<State>> &board) {
+
+    // get current node's data
+    int current_x = current[0];
+    int current_y = current[1];
+    int current_g = current[2];
+
+    // Loop through current node's potential neighbors
+    for (int i = 0; i < 4; i++) {
+        int next_x = current_x + delta[i][0];
+        int next_y = current_y + delta[i][1];
+
+        // Check that the potential neighbor's next_x and
+        //next_y values are on the board and not closed
+        if(CheckValidCell(next_x, next_y, board)) {
+            // Increment g value and add neighbor to open list
+            int next_g = current_g + 1;
+            int next_h = Heuristic(next_x, next_y, goal[0], goal[1]);
+            AddToOpen(next_x, next_y, next_g, next_h, openList, board);
+        }
+    }
+}
+
 vector<vector<State>> Search(vector<vector<State>> board,
                              int init[2],
                              int goal[2]) {
 
     vector<vector<int>> open{};
-    int current_x = init[0];
-    int current_y = init[1];
+    int init_x = init[0];
+    int init_y = init[1];
     int goal_x = goal[0];
     int goal_y = goal[1];
+    int current_x = init_x;
+    int current_y = init_y;
     int g = 0;
     int h = Heuristic(current_x, current_y, goal_x, goal_y);
+
 
     AddToOpen(current_x, current_y, g, h, open, board);
 
@@ -110,8 +142,11 @@ vector<vector<State>> Search(vector<vector<State>> board,
 
         // Check if we've reached the goal
         if (current_x == goal_x && current_y == goal_y) {
+            board[init[0]][init[1]] = State::kStart;
+            board[goal_x][goal_y] = State::kFinish;
             return board;
         }
+        ExpandNeighbors(currentNode, goal, open, board);
     }
 
     cout << "No Path found!" << endl;
@@ -120,7 +155,10 @@ vector<vector<State>> Search(vector<vector<State>> board,
 
 string CellString(State cell) {
     switch(cell) {
-        case State::kObstacle: return "⛰️  ";
+        case State::kObstacle:  return "X  ";
+        case State::kStart:     return "S  ";
+        case State::kFinish:    return "F  ";
+        case State::kPath:      return "p  ";
         default: return "0  ";
     }
 }
@@ -149,5 +187,6 @@ int main() {
     TestCompare();
     TestSearch();
     TestCheckValidCell();
+    TestExpandNeighbors();
     return 0;
 }
