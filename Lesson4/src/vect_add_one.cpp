@@ -1,4 +1,4 @@
-#include "lesson4-vect_add_one.h"
+#include "vect_add_one.h"
 
 void AddOneToEach (vector<int> &v) {
     for (auto& i : v) {
