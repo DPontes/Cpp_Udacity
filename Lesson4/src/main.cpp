@@ -1,6 +1,6 @@
 #include <iostream>
 #include <vector>
-#include "lesson4-increment_and_sum.h"
+#include "increment_and_sum.h"
 using std::vector;
 using std::cout;
 using std::endl;
