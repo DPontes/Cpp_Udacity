@@ -1,24 +1,40 @@
+// Generates 100 cars with different colors, move each
+// and print data about each
 #include <iostream>
 #include <string>
+#include <vector>
 #include "car.h"
 
 using std::string;
+using std::vector;
 using std::cout;
 using std::endl;
 
 int main() {
-    // Create class instances for each car
-    Car car1 = Car("green", 1);
-    Car car2 = Car("red", 2);
-    Car car3 = Car("blue", 3);
+    // Create and empty vector of pointers to Cars
+    // and a null pointer to a car
+    vector<Car*> carVect;
+    Car* cp = nullptr;
 
-    // Increment Car 1 distance
-    car1.IncrementDistance();
+    // The vector of colors for the cars
+    vector<string> colors {"red","blue","green"};
 
-    // Print out the position of the cars
-    car1.PrintCarData();
-    car2.PrintCarData();
-    car3.PrintCarData();
+    // Create 100 cars with different colors and
+    // push pointers to each of those cars in the vector
+    for (int i = 0; i < 100; i++) {
+        cp = new Car(colors[i%3], i+1);
+        carVect.push_back(cp);
+    }
+
+    // Move each car forward by 1
+    for (Car* cp : carVect) {
+        cp -> IncrementDistance();
+    }
+
+    // Print data about each car
+    for (Car* cp : carVect) {
+        cp -> PrintCarData();
+    }
 
     return 0;
 }
