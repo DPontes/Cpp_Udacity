@@ -8,5 +8,5 @@ void Car::PrintCarData() {
 }
 
 void Car::IncrementDistance() {
-    distance++;
+    this->distance++;
 }
