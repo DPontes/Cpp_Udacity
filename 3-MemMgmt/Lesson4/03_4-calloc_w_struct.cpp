@@ -20,5 +20,7 @@ int main()
   printf("double adress=%p, double value=%f\n", p+1, p[1].d);
   printf("char address=%p, char value=%c", p+2, p[2].a[0]);
 
+  free(p);
+
   return 0;
 }

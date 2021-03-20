@@ -26,5 +26,7 @@ int main() {
   printf("address=%p, value=%d\n", p+2, *(p+2));    // These pointers and data can still be accessed - realloc doesn't erase memory,
   printf("address=%p, value=%d\n", p+3, *(p+3));    // it only makes it available for future allocations. Accessing deallocated data should be avoided
 
+  free(p);
+
   return 0;
 }
