@@ -16,9 +16,9 @@ int main()
   p[2].a[0] = 'a';
 
   printf("The information in the struct is:\n");
-  printf("int address=%p, int value=%d\n", p, p[0].i);
-  printf("double adress=%p, double value=%f\n", p, p[1].d);
-  printf("char address=%p, char value=%c", p, p[2].a[0]);
+  printf("int address=%p, int value=%d\n", p+0, p[0].i);
+  printf("double adress=%p, double value=%f\n", p+1, p[1].d);
+  printf("char address=%p, char value=%c", p+2, p[2].a[0]);
 
   return 0;
 }
